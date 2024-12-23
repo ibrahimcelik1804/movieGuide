@@ -5,7 +5,7 @@ interface FavoritesState {
   favoriteMovies: Movie[];
 }
 
-// localStorage'dan favori filmleri alalım, yoksa boş dizi döndürelim
+
 const loadFavoritesFromLocalStorage = (): Movie[] => {
   const storedFavorites = localStorage.getItem("favorites");
   return storedFavorites ? JSON.parse(storedFavorites) : [];
@@ -21,19 +21,19 @@ const favoritesSlice = createSlice({
   reducers: {
     addToFavorites: (state, action: PayloadAction<Movie>) => {
       state.favoriteMovies.push(action.payload);
-      // localStorage'a kaydedelim
+     
       localStorage.setItem("favorites", JSON.stringify(state.favoriteMovies));
     },
     removeFromFavorites: (state, action: PayloadAction<number>) => {
       state.favoriteMovies = state.favoriteMovies.filter(
         (movie) => movie.id !== action.payload
       );
-      // localStorage'a kaydedelim
+
       localStorage.setItem("favorites", JSON.stringify(state.favoriteMovies));
     },
     clearFavorites: (state) => {
       state.favoriteMovies = [];
-      // localStorage'ı temizleyelim
+  
       localStorage.setItem("favorites", JSON.stringify([]));
     },
   },
