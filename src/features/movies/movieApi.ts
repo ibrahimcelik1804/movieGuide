@@ -1,16 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-//const API_KEY = "343da7773aacf75708178583dbfa9868"; // API key'inizi buraya ekleyin
-
 export const movieApi = createApi({
   reducerPath: "movieApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://api.themoviedb.org/3/",
     prepareHeaders: (headers) => {
-      headers.set(
-        "Authorization",
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzNDNkYTc3NzNhYWNmNzU3MDgxNzg1ODNkYmZhOTg2OCIsIm5iZiI6MTczNDQzNDY2OC40NjUsInN1YiI6IjY3NjE1ZjZjODcwY2MzYzAwZmI1MDQ4NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.1KxbwwfJEhPsGErSc_HZeE5U9Umv0H0_jpLBZrotPCc"
-      );
+      const apiKey = import.meta.env.VITE_API_KEY; 
+      if (apiKey) {
+        headers.set("Authorization", `Bearer ${apiKey}`);
+      }
       return headers;
     },
   }),
@@ -30,7 +28,7 @@ export const movieApi = createApi({
     }),
     getMoviesByGenre: builder.query({
       query: (genreId: number) =>
-        `discover/movie?api_key=YOUR_API_KEY&with_genres=${genreId}`,
+        `discover/movie?with_genres=${genreId}`,
     }),
     getGenres: builder.query({
       query: () => "genre/movie/list?language=tr-TR",
